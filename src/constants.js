@@ -1,0 +1,1 @@
+export const DATABASE_NAME="backend-project-01"
