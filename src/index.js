@@ -1,13 +1,33 @@
-import dotenv from "dotenv"
-import mongoose from "mongoose";
-import { DATABASE_NAME } from "./constants.js";
-import express from "express";
+import dotenv from "dotenv";
 import connectToDB from "./db/index.js";
+import { app } from "./app.js";
 
 dotenv.config({
-  path:'./env'
-})
-connectToDB();
+  path: "./env",
+});
+// app.use(cors()), here cors() is a middleware. 
+connectToDB()
+  .then(() => {
+    app.on("error", (err) => {
+      throw err;
+    });
+    app.listen(process.env.PORT || 8000, () => {
+      console.log("server listeining at:", process.env.PORT);
+    });
+  })
+  .catch((err) => {
+    console.log("MongoDb connection failed....:", err);
+  });
+
+
+
+
+
+
+
+
+
+
 //using iffy
 // connecting to database is a complex process and is prone to mistakes/error so, using try and catch with async await is must
 // const app = express();
